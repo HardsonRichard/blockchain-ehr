@@ -19,8 +19,8 @@ const AddMedication = () => {
   };
 
   return (
-    <div>
-      <h2 className="text-2xl font-medium">Add Medication</h2>
+    <div className="flex flex-col justify-centre items-centre p-4">
+      <h2 className="text-md text-blue-500 font-medium">ADD MEDICATION</h2>
       <form onSubmit={handleSubmit} className="mt-4">
         <div className="flex flex-col">
           <label htmlFor="patientId" className="text-lg font-medium">

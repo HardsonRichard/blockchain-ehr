@@ -4,6 +4,10 @@ let patientContract;
 
 let selectedAccount;
 
+const provider = window.ethereum;
+
+const web3 = new Web3(provider);
+
 export const init = async () => {
   const PatientContract = require("./truffle/build/contracts/PatientContract.json");
   let provider = window.ethereum;
@@ -137,8 +141,7 @@ export const addPatientRecord = (
   _symptoms,
   _diagnosis,
   _test,
-  _prescription,
-  _medication
+  _prescription
 ) => {
   return patientContract.methods
     .addPatientRecord(
@@ -147,8 +150,26 @@ export const addPatientRecord = (
       _symptoms,
       _diagnosis,
       _test,
-      _prescription,
-      _medication
+      _prescription
     )
     .send({ from: selectedAccount });
+};
+
+export const getPatientRecord = async (_appointmentID) => {
+  try {
+    const appointmentData = await patientContract.methods
+      .getPatientRecord(_appointmentID)
+      .call();
+    return {
+      patientID: appointmentData.patientID,
+      appointmentID: appointmentData.appointmentID,
+      symptoms: appointmentData.symptoms,
+      diagnosis: appointmentData.diagnosis,
+      test: appointmentData.test,
+      prescription: appointmentData.prescription,
+    };
+  } catch (error) {
+    console.error("Error fetching appointment data:", error);
+    throw error;
+  }
 };

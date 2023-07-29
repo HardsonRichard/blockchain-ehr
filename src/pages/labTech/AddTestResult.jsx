@@ -16,59 +16,67 @@ const AddTestResult = ({ patientName, testType, onAddTestResults }) => {
   };
 
   return (
-    <div className="my-4">
-      <h3 className="text-lg font-medium">Add Test Results</h3>
-      <form onSubmit={handleSubmit} className="mt-2">
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="flex-grow">
-            <label htmlFor="testResults" className="block text-sm font-medium text-gray-700">
+    <div className="flex justify-center items-center h-screen">
+      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg p-4 border border-gray-300">
+        <h3 className="text-md font-semibold text-blue-500 mb-4 text-centre">
+          ADD TEST RESULTS
+        </h3>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label
+              htmlFor="patientName"
+              className="block text-sm font-medium text-gray-700"
+            >
               Patient Name
             </label>
             <input
               type="text"
               id="patientName"
               value={patientName}
-              disabled
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-gray-100"
             />
           </div>
-          <div className="flex-grow">
-            <label htmlFor="testResults" className="block text-sm font-medium text-gray-700">
+          <div className="mb-4">
+            <label
+              htmlFor="testType"
+              className="block text-sm font-medium text-gray-700"
+            >
               Test Type
             </label>
             <input
               type="text"
               id="testType"
               value={testType}
-              disabled
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="mt-1 block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm bg-gray-100"
             />
           </div>
-        </div>
-        <div className="mt-4">
-          <label htmlFor="testResults" className="block text-sm font-medium text-gray-700">
-            Test Results
-          </label>
-          <textarea
-            id="testResults"
-            value={testResults}
-            onChange={handleTestResultsChange}
-            rows={3}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-          />
-        </div>
-        <div className="mt-4">
-          <button
-            type="submit"
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            Add Test Results
-          </button>
-        </div>
-      </form>
+          <div className="mb-4">
+            <label
+              htmlFor="testResults"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Test Results
+            </label>
+            <textarea
+              id="testResults"
+              value={testResults}
+              onChange={handleTestResultsChange}
+              rows={5}
+              className="mt-1 block w-full px-3 py-2 rounded-md border-gray-300 shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm resize-none"
+            />
+          </div>
+          <div className="flex justify-center">
+            <button
+              type="submit"
+              className="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Add Test Results
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
 
 export default AddTestResult;
-

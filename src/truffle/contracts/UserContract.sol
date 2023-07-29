@@ -5,8 +5,6 @@ pragma solidity >=0.4.22 <0.9.0;
 pragma experimental ABIEncoderV2;
 
 contract UserContract {
-    
-    
     //state variable for userIDs
     uint256 userID;
 
@@ -31,23 +29,26 @@ contract UserContract {
     //////////////// STATE VARIABLES END////////////////////////////////
 
     constructor() {
-
-        userID = 1;          //initializes the doctor ID to 1
-        receptionistID =1;   //initializes the receptionist ID to 1
-        nurseID =1;          //initializes the nurse ID to 1
-        labTechID =1;        //initializes the labTech ID to 1
-        pharmacistID =1;     //initializes the pharmacist ID to 1
-        adminID =1;          //initializes the admin ID to 1
-
+        userID = 1; //initializes the doctor ID to 1
+        receptionistID = 1; //initializes the receptionist ID to 1
+        nurseID = 1; //initializes the nurse ID to 1
+        labTechID = 1; //initializes the labTech ID to 1
+        pharmacistID = 1; //initializes the pharmacist ID to 1
+        adminID = 1; //initializes the admin ID to 1
     }
-
 
     ////////////// CONSTRUCTOR END ///////////////////////////////////
 
-
     ////////////////  ADDRESESS END ////////////////////////////////////
 
-    enum Role {Receptionist, Nurse, Doctor, LabTech, Pharmacist, Admin}
+    enum Role {
+        Receptionist,
+        Nurse,
+        Doctor,
+        LabTech,
+        Pharmacist,
+        Admin
+    }
 
     ///////////////// ENUMS END //////////////////////////////////////
 
@@ -70,8 +71,6 @@ contract UserContract {
     mapping(uint => Pharmacist) private Pharmacists;
     mapping(uint => Admin) private Admins;
 
-
-
     //////////////// MAPPINGS END /////////////////////////////////////
 
     // An event to show user has been successfully registered
@@ -81,84 +80,79 @@ contract UserContract {
     event LoggedIn(uint _userID);
 
     // Event to display user data
-    event UserDisplay(uint256 userID, string userName, string email, string role);
-
-
-
+    event UserDisplay(
+        uint256 userID,
+        string userName,
+        string email,
+        string role
+    );
 
     //////////////// EVENTS END ///////////////////////////////////////
 
     //modifier to check if the sender is a user
     modifier onlyUser() {
-        
         require(users[msg.sender].userID != 0, "Only users allowed");
         _;
     }
 
     //modifier to only allow receptionists to do something
     modifier onlyReceptionists() {
-
-        require(users[msg.sender].role == Role.Receptionist, "Only receptionists allowed");
+        require(
+            users[msg.sender].role == Role.Receptionist,
+            "Only receptionists allowed"
+        );
         _;
     }
 
     //modifier to only allow nurses to do something
     modifier onlyNurses() {
-
         require(users[msg.sender].role == Role.Nurse, "Only nurses allowed");
         _;
     }
 
     //modifier to only allow doctors to do something
     modifier onlyDoctors() {
-
         require(users[msg.sender].role == Role.Doctor, "Only doctors allowed");
         _;
     }
 
     //modifier to only allow laboratory technicians to do something
     modifier onlyLabTechs() {
-
-        require(users[msg.sender].role == Role.LabTech, "Only laboratory technicians allowed");
+        require(
+            users[msg.sender].role == Role.LabTech,
+            "Only laboratory technicians allowed"
+        );
         _;
     }
 
     //modifier to only allow pharmacists to do something
     modifier onlyPharmacists() {
-
-        require(users[msg.sender].role == Role.Pharmacist, "Only pharmacists allowed");
+        require(
+            users[msg.sender].role == Role.Pharmacist,
+            "Only pharmacists allowed"
+        );
         _;
     }
 
     //modifier to only allow admins to do something
     modifier onlyAdmins() {
-
         require(users[msg.sender].role == Role.Admin, "Only admins allowed");
         _;
     }
 
-
-
-
-
-
     ////////////// MODIFIERS END /////////////////////////////////////
-
 
     //struct for all users
     struct User {
-
         uint userID;
         string userName;
         string email;
         bytes32 password;
         Role role;
-
     }
 
     //struct for receptionists
     struct Receptionist {
-
         uint receptionistID;
         string receptionistName;
     }
@@ -168,10 +162,9 @@ contract UserContract {
         uint nurseID;
         string nurseName;
     }
-    
+
     //struct for doctors
     struct Doctor {
-
         uint doctorID;
         string doctorName;
     }
@@ -184,124 +177,88 @@ contract UserContract {
 
     //struct for pharmacists
     struct Pharmacist {
-
         uint pharmacistID;
         string pharmacistName;
     }
 
     struct Admin {
-
         uint adminID;
         string adminName;
     }
 
-
-
-
-
-
-
-
     ///////////////// STRUCTS END /////////////////////////////////////
 
-
-
     function register(
-
         string memory _userName,
         string memory _email,
         string memory _password,
         Role _role
-
     ) public {
-
         bytes32 _passwordHash = keccak256(abi.encodePacked(_password));
 
         users[msg.sender] = User({
-
             userID: userID,
             userName: _userName,
             email: _email,
             password: _passwordHash,
             role: _role
-
         });
 
         // Update role-specific mappings
         if (_role == Role.Receptionist) {
             receptionists[msg.sender] = true;
             Receptionists[receptionistID] = Receptionist({
-
                 receptionistID: receptionistID,
                 receptionistName: _userName
             });
             receptionistID++;
-
         } else if (_role == Role.Nurse) {
             nurses[msg.sender] = true;
-            Nurses[nurseID] = Nurse({
-
-                nurseID: nurseID,
-                nurseName: _userName
-            });
+            Nurses[nurseID] = Nurse({nurseID: nurseID, nurseName: _userName});
             nurseID++;
-
         } else if (_role == Role.Doctor) {
             doctors[msg.sender] = true;
             Doctors[doctorID] = Doctor({
-
                 doctorID: doctorID,
                 doctorName: _userName
             });
             doctorID++;
-
         } else if (_role == Role.LabTech) {
             labTechs[msg.sender] = true;
             LabTechs[labTechID] = LabTech({
-
                 labTechID: labTechID,
                 labTechName: _userName
             });
             labTechID++;
-
         } else if (_role == Role.Pharmacist) {
             pharmacists[msg.sender] = true;
             Pharmacists[pharmacistID] = Pharmacist({
-
                 pharmacistID: pharmacistID,
                 pharmacistName: _userName
             });
             pharmacistID++;
-
         } else if (_role == Role.Admin) {
             admins[msg.sender] = true;
-            Admins[adminID] = Admin({
-
-                adminID: adminID,
-                adminName: _userName
-            });
+            Admins[adminID] = Admin({adminID: adminID, adminName: _userName});
             adminID++;
-
-        }        
+        }
         userID++;
 
         emit RegistrationSuccessful(userID, _userName);
-
     }
 
     //function allow user to login in to the system
     function login(
-
-
         string memory _email,
         string memory _password
-    ) public view returns(bool) {
-
+    ) public view returns (bool) {
         bytes32 passwordHash = keccak256(abi.encodePacked(_password));
-        User memory _user =   users[msg.sender];
+        User memory _user = users[msg.sender];
         if (
-            keccak256(abi.encodePacked(_user.email)) == keccak256(abi.encodePacked(_email)) && 
-            keccak256(abi.encodePacked(_user.password)) ==keccak256(abi.encodePacked(passwordHash))
+            keccak256(abi.encodePacked(_user.email)) ==
+            keccak256(abi.encodePacked(_email)) &&
+            keccak256(abi.encodePacked(_user.password)) ==
+            keccak256(abi.encodePacked(passwordHash))
         ) {
             return true;
         } else {
@@ -309,8 +266,10 @@ contract UserContract {
         }
     }
 
-
+    // Function to get the total number of users registered
+    function getTotalUsers() public view returns (uint256) {
+        return userID - 1; // Subtract 1 because the initial userID is 1
+    }
 
     //////////////////// FUNCTIONS END //////////////////////////////////
-
 }

@@ -24,7 +24,7 @@ function Sidebar() {
           <span className="text-white font-semi-bold text-2xl">BPRMS</span>
         </div>
         <div className="flex py-8 flex-col px-2 gap-0.5">
-          {DASHBOARD_DOCTOR_SIDEBAR_LINKS.map((item) => (
+          {DASHBOARD_ADMIN_SIDEBAR_LINKS.map((item) => (
             <SidebarLink key={item.key} item={item} />
           ))}
         </div>

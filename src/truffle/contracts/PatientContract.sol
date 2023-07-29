@@ -10,7 +10,7 @@ contract PatientContract is UserContract {
     //a state variable for patientIDs
     uint256 private patientID;
 
-    //a state variable that stores an instance of the UserContract
+    //a state variable that stores an instance of the UserContract truffle ,i
     UserContract public userContract;
 
     //a state variable for appointments
@@ -124,20 +124,19 @@ contract PatientContract is UserContract {
     //struct for report
     struct Report {
         uint appointmentID;
-        string[] symptoms;
-        Diagnosis diagnosis;
-        Prescription prescription;
+        string symptoms;
+        string diagnosis;
+        string prescription;
     }
 
     //struct that defines a new patient record
     struct PatientRecord {
         uint patientID;
         uint appointmentID;
-        string[] symptoms;
-        Diagnosis diagnosis;
+        string symptoms;
+        string diagnosis;
         bool test;
-        Prescription prescription;
-        bool medication;
+        string prescription;
     }
 
     //struct for appointments
@@ -312,7 +311,7 @@ contract PatientContract is UserContract {
     function addAppointment(
         uint _doctorID,
         uint _patientID
-    ) public onlyReceptionists {
+    ) public {
         Appointment memory appointment = Appointment({
             appointmentID: appointmentID,
             doctorID: _doctorID,
@@ -333,11 +332,10 @@ contract PatientContract is UserContract {
     function addPatientRecord(
         uint _patientID,
         uint _appointmentID,
-        string[] memory _symptoms,
-        Diagnosis memory _diagnosis,
+        string memory _symptoms,
+        string memory _diagnosis,
         bool _test,
-        Prescription memory _prescription,
-        bool _medication
+        string memory _prescription
     )
         public
         doesAppointmentExist(_patientID)
@@ -351,8 +349,7 @@ contract PatientContract is UserContract {
             symptoms: _symptoms,
             diagnosis: _diagnosis,
             test: _test,
-            prescription: _prescription,
-            medication: _medication
+            prescription: _prescription
         });
 
         emit PatientRecordAdded(_patientID);
@@ -380,9 +377,9 @@ contract PatientContract is UserContract {
     function generateReport(
         uint _patientID,
         uint _appointmentID,
-        string[] memory _symptoms,
-        Diagnosis memory _diagnosis,
-        Prescription memory _prescription
+        string memory _symptoms,
+        string memory _diagnosis,
+        string memory _prescription
     ) public {
         Report memory report = Report({
             appointmentID: _appointmentID,

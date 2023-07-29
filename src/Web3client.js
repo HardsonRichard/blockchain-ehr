@@ -1,12 +1,11 @@
 import Web3 from "web3";
 
-
 let selectedAccount;
 
 let userContract;
 
 export const init = async () => {
-    const UserContract = require("./truffle/build/contracts/UserContract.json");
+  const UserContract = require("./truffle/build/contracts/UserContract.json");
   let provider = window.ethereum;
   if (typeof provider !== "undefined") {
     //Metamask is installed
@@ -35,16 +34,20 @@ export const init = async () => {
   );
 };
 
-export const register = (username,email,password,role) => {
+export const register = (username, email, password, role) => {
   return userContract.methods
     .register(username, email, password, role)
-    .send({from:selectedAccount});
+    .send({ from: selectedAccount });
 };
 
-export const login = (email,password) => {
-    return userContract.methods
-      .login(email, password)
-      .send({from:selectedAccount});
-  };
+export const login = (email, password) => {
+  return userContract.methods
+    .login(email, password)
+    .send({ from: selectedAccount });
+};
+
+export const getTotalUsers = () => {
+  return userContract.methods.getTotalUsers().call();
+};
 
 
